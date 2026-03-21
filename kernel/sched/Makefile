@@ -32,6 +32,7 @@ obj-$(CONFIG_CPU_FREQ_GOV_SCHEDUTIL) += cpufreq_schedutil.o
 obj-$(CONFIG_CPU_FREQ_GOV_SCHEDHORIZON) += cpufreq_schedhorizon.o
 obj-$(CONFIG_OPLUS_PREFER_SILVER) += prefer_silver.o
 obj-$(CONFIG_MEMBARRIER) += membarrier.o
+obj-$(CONFIG_CPU_FREQ_GOV_BLU_SCHEDUTIL) += cpufreq_blu_schedutil.o
 obj-$(CONFIG_SCHED_CORE_CTL) += core_ctl.o
 ifndef CONFIG_SCHED_CORE_CTL
 obj-$(CONFIG_SCHED_WALT) += rotation_ctl.o
