@@ -91,8 +91,8 @@ walt_dec_cfs_rq_stats(struct cfs_rq *cfs_rq, struct task_struct *p) {}
  *
  * OPTIMIZED: Increased from 4ms to 6ms to reduce context switches (lower power)
  */
-unsigned int sysctl_sched_latency			= 6000000UL;
-unsigned int normalized_sysctl_sched_latency		= 6000000UL;
+unsigned int sysctl_sched_latency			= 3000000UL;
+unsigned int normalized_sysctl_sched_latency		= 3000000UL;
 
 /*
  * Enable/disable honoring sync flag in energy-aware wakeups.
@@ -122,13 +122,13 @@ enum sched_tunable_scaling sysctl_sched_tunable_scaling = SCHED_TUNABLESCALING_L
  * OPTIMIZED: Increased from 0.75ms to 1ms for lower context switch overhead
  * (default: 0.75 msec * (1 + ilog(ncpus)), units: nanoseconds)
  */
-unsigned int sysctl_sched_min_granularity		= 1000000UL;
-unsigned int normalized_sysctl_sched_min_granularity	= 1000000UL;
+unsigned int sysctl_sched_min_granularity		= 3750000UL;
+unsigned int normalized_sysctl_sched_min_granularity	= 3750000UL;
 
 /*
  * This value is kept at sysctl_sched_latency/sysctl_sched_min_granularity
  */
-static unsigned int sched_nr_latency = 6;
+static unsigned int sched_nr_latency = 8;
 
 /*
  * After fork, child runs first. If set to 0 (default) then
@@ -150,10 +150,10 @@ unsigned int __read_mostly sysctl_sched_energy_aware = 1;
  *
  * (default: 1 msec * (1 + ilog(ncpus)), units: nanoseconds)
  */
-unsigned int sysctl_sched_wakeup_granularity		= 200000UL;
-unsigned int normalized_sysctl_sched_wakeup_granularity	= 200000UL;
+unsigned int sysctl_sched_wakeup_granularity		= 500000UL;
+unsigned int normalized_sysctl_sched_wakeup_granularity	= 500000UL;
 
-unsigned int __read_mostly sysctl_sched_migration_cost	= 250000UL;
+unsigned int __read_mostly sysctl_sched_migration_cost	= 500000UL;
 /* OPTIMIZED: Reduced from 500000 to 250000 (500µs to 250µs) for Poco X3 NFC (Phase 14)
  * Benefits: Faster CPU hotplug detection, quicker core on/off transitions, +3-5% responsiveness
  * Reduces hotplug detection latency from 500µs to 250µs for smoother frequency/core scaling
