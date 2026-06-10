@@ -160,7 +160,7 @@ jobs:
           echo "BUILD_START_EPOCH=${BUILD_START_EPOCH}" >> $GITHUB_ENV
           echo "BUILD_START_TIME=${BUILD_START_TIME}" >> $GITHUB_ENV
 
-          MSG_TEXT="<b>💫 Kernel Build Dimulai!</b>
+          MSG_TEXT="<b>Kernel Build Dimulai!</b>
 
            🏷️ <b>Nama Kernel:</b> <code>${{ steps.info.outputs.KERNEL_NAME }}</code>
            🌿 <b>Branch:</b> <code>${{ github.event.inputs.KERNEL_BRANCH }}</code>
@@ -275,8 +275,8 @@ jobs:
             ### 📋 Build Info
             | Info | Detail |
             |------|--------|
-            | 🏷️ Nama | `${{ steps.info.outputs.KERNEL_NAME }}` |
-            | 🌿 Branch | `${{ github.event.inputs.KERNEL_BRANCH }}` |
+            | 📝 Nama | `${{ steps.info.outputs.KERNEL_NAME }}` |
+            | 🗂️ Branch | `${{ github.event.inputs.KERNEL_BRANCH }}` |
             | 📋 Defconfig | `${{ env.DEFCONFIG }}` |
             | 🧰 Clang | `${{ steps.info.outputs.CLANG_VERSION }}` |
             | ⚡ LTO | `${{ github.event.inputs.ENABLE_LTO }}` |
@@ -340,8 +340,8 @@ jobs:
 
           # Kirim ZIP dengan caption ringkasan
           CAPTION="📦 <b>${{ steps.info.outputs.ZIP_NAME }}</b>
-            ⌛ Build selesai dalam <code>${DURATION}</code>
-            👤 by <code>${{ github.actor }}</code>"
+          ⌛ Build selesai dalam <code>${DURATION}</code>
+          👤 by <code>${{ github.actor }}</code>"
             
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
             -F chat_id="${TELEGRAM_CHAT_ID}" \
