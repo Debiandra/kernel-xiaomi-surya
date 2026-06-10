@@ -144,16 +144,16 @@ apply_config() {
 # CONFIG_LTO
 if [ "${ENABLE_LTO}" = "true" ]; then
     echo -e "${CYAN}⚡ Mengaktifkan CONFIG_LTO...${RESET}"
+    apply_config "CONFIG_LTO_NONE" "n"
     apply_config "CONFIG_LTO" "y"
     apply_config "CONFIG_LTO_CLANG" "y"
     apply_config "CONFIG_THINLTO" "y"
 else
     echo -e "${YELLOW}⚡ CONFIG_LTO dinonaktifkan${RESET}"
     apply_config "CONFIG_LTO" "n"
-    apply_config "CONFIG_LTO_CLANG" "y"
-    apply_config "CONFIG_THINLTO" "y"
-    
-# CONFIG_LTO_CLANG is not set
+    apply_config "CONFIG_LTO_CLANG" "n"
+    apply_config "CONFIG_THINLTO" "n"
+    apply_config "CONFIG_LTO_NONE" "y"
 fi
 
 # CONFIG_CAMERA_BOOTCLOCK_TIMESTAMP
