@@ -190,7 +190,7 @@ jobs:
       - name: "🚀 Build Kernel"
         id: build
         run: |
-          chmod +x ${{ env.KERNEL_DIR }}/build.sh
+          chmod +x ${{ env.KERNEL_DIR }}/buildci.sh
           cd ${{ env.KERNEL_DIR }}
 
           export KERNEL_NAME="${{ github.event.inputs.KERNEL_NAME }}"
@@ -198,7 +198,7 @@ jobs:
           export ENABLE_CAMERA_BOOTCLOCK="${{ github.event.inputs.ENABLE_CAMERA_BOOTCLOCK }}"
           export CI_BUILD=true
 
-          bash build.sh 2>&1 | tee ${{ env.KERNEL_DIR }}/build.log
+          bash buildci.sh 2>&1 | tee ${{ env.KERNEL_DIR }}/build.log
           echo "BUILD_EXIT=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
 
       # ──────────────────────────────────────────
