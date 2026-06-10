@@ -151,7 +151,7 @@ else
     echo -e "${YELLOW}⚡ CONFIG_LTO dinonaktifkan${RESET}"
     apply_config "CONFIG_LTO" "n"
     apply_config "CONFIG_LTO_CLANG" "y"
-    apply_config "CONFIG_THINLTO" "y
+    apply_config "CONFIG_THINLTO" "y"
     
 # CONFIG_LTO_CLANG is not set
 fi
