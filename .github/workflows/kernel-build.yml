@@ -119,7 +119,7 @@ jobs:
       - name: "📦 Clone AnyKernel3"
         run: |
           git clone --depth=1 \
-            https://github.com/droidspace-lnx/AnyKernel3.git \
+            https://github.com/Michikoextv2/AnyKernel3.git \
             -b staging \
             ${{ env.ANYKERNEL_DIR }}
 
