@@ -97,6 +97,14 @@ static DEFINE_PER_CPU(struct sugov_tunables *, cached_tunables);
 
 /************************ Governor internals ***********************/
 
+/* Helper function to check if task is a booster task */
+static inline bool task_is_booster(struct task_struct *p)
+{
+	/* Stub implementation - always return false for now */
+	/* This can be extended in future with proper booster task detection */
+	return false;
+}
+
 static int match_nearest_efficient_step(int freq,int maxstep,int *freq_table)
 {
     int i;
