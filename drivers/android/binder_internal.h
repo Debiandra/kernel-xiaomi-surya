@@ -82,8 +82,8 @@ extern char *binder_devices_param;
 #ifdef CONFIG_ANDROID_BINDERFS
 extern bool is_binderfs_device(const struct inode *inode);
 extern struct dentry *binderfs_create_file(struct dentry *dir, const char *name,
-					   const struct file_operations *fops,
-					   void *data);
+				   const struct file_operations *fops,
+				   void *data);
 extern void binderfs_remove_file(struct dentry *dentry);
 #else
 static inline bool is_binderfs_device(const struct inode *inode)
@@ -91,9 +91,9 @@ static inline bool is_binderfs_device(const struct inode *inode)
 	return false;
 }
 static inline struct dentry *binderfs_create_file(struct dentry *dir,
-					   const char *name,
-					   const struct file_operations *fops,
-					   void *data)
+				   const char *name,
+				   const struct file_operations *fops,
+				   void *data)
 {
 	return NULL;
 }
@@ -389,6 +389,12 @@ struct binder_priority {
  *                        (invariant after initialized)
  * @tsk                   task_struct for group_leader of process
  *                        (invariant after initialized)
+ * @files                 files_struct for process
+ *                        (protected by @files_lock)
+ * @files_lock            mutex to protect @files
+ * @cred                  struct cred associated with the `struct file`
+ *                        in binder_open()
+ *                        (invariant after initialized)
  * @deferred_work_node:   element for binder_deferred_list
  *                        (protected by binder_deferred_lock)
  * @deferred_work:        bitmap of deferred work to perform
@@ -411,6 +417,8 @@ struct binder_priority {
  * @freeze_wait:          waitqueue of processes waiting for all outstanding
  *                        transactions to be processed
  *                        (protected by @inner_lock)
+ * @dmap                  dbitmap to manage available reference descriptors
+ *                        (protected by @outer_lock)
  * @todo:                 list of work for this process
  *                        (protected by @inner_lock)
  * @stats:                per-process binder statistics
@@ -451,6 +459,9 @@ struct binder_proc {
 	struct list_head waiting_threads;
 	int pid;
 	struct task_struct *tsk;
+	struct files_struct *files;
+	struct mutex files_lock;
+	const struct cred *cred;
 	struct hlist_node deferred_work_node;
 	int deferred_work;
 	int outstanding_txns;
@@ -459,16 +470,17 @@ struct binder_proc {
 	bool sync_recv;
 	bool async_recv;
 	wait_queue_head_t freeze_wait;
+	struct dbitmap dmap;
 
 	struct list_head todo;
 #ifdef CONFIG_ANDROID_BINDER_LOGS
 	struct binder_stats stats;
 #endif
 	struct list_head delivered_death;
-	int max_threads;
+	u32 max_threads;
 	int requested_threads;
 	int requested_threads_started;
-	int tmp_ref;
+	atomic_t tmp_ref;
 	struct binder_priority default_priority;
 	struct dentry *debugfs_entry;
 	struct binder_alloc alloc;
@@ -478,29 +490,6 @@ struct binder_proc {
 	struct dentry *binderfs_entry;
 	bool oneway_spam_detection_enabled;
 };
-
-/**
- * struct binder_proc_ext - binder process bookkeeping
- * @proc:            element for binder_procs list
- * @cred                  struct cred associated with the `struct file`
- *                        in binder_open()
- *                        (invariant after initialized)
- *
- * Extended binder_proc -- needed to add the "cred" field without
- * changing the KMI for binder_proc.
- */
-struct binder_proc_ext {
-	struct binder_proc proc;
-	const struct cred *cred;
-};
-
-static inline const struct cred *binder_get_cred(struct binder_proc *proc)
-{
-	struct binder_proc_ext *eproc;
-
-	eproc = container_of(proc, struct binder_proc_ext, proc);
-	return eproc->cred;
-}
 
 /**
  * struct binder_thread - binder thread bookkeeping
